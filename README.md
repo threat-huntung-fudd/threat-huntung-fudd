@@ -25,44 +25,44 @@ This codebase is built upon the following excellent repositories:
 
 ---
 
-### ⚙️ Installation
+## ⚙️ Installation
 
 ```bash
 conda env create -f environment.yml
-
-## Installation 
-conda env create -f environment.yml 
-'''
+```
+```bash
 cd gnn 
 git clone https://github.com/timpostuvan/TGB-link-anomaly-detection.git
 cd TGB-link-anomaly-detection
 pip install -e .
-'''
+```
+---
 
-
-### 📊 Preprocessing
+## 📊 Preprocessing
 - Start the e.g. cadets.ipynb 
-
+---
 ### 🧠 GNN Model Training
-'''
+```bash
 python train_darpa_cadets.py 
-'''
+```
+---
 ### 📈 Anomaly Detection 
-'''
+```bash
 python result_analysis_cadets.py
-'''
-###🧪 Memgraph Hunting \& Visualization
-'''
+```
+---
+### 🧪 Memgraph Hunting \& Visualization
+```bash
 cd memgraph-platform
 docker-compose up -d
-'''
-'''
+```
+```bash
 python darpa_upload_cadets.py
-'''
+```
 	•	Open http://localhost:3000 in your browser.
 	•	Load the visual styling by uploading memgraph_style.txt.
 	•	Run the provided Cypher queries to explore detected anomalies.
-
+---
 <!---
 threat-huntung-fudd/threat-huntung-fudd is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 You can click the Preview link to take a look at your changes.
