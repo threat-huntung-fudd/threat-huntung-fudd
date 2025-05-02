@@ -1,0 +1,73 @@
+On Cadets:
+
+
+MATCH (source)-[r]->(destination)
+WHERE  r.indexid IN ['8823', '8427', '8431', '8787', '8429', '8503', '8779', '8830', '8749', '5886', '7059', '8425', '8780', '8834', '8432', '8543', '8544', '8745', '8821', '3820', '8511', '4430', '4431', '4432', '8537', '8538', '8825', '8784', '8832', '8716', '8746', '4471', '4472', '8554', '8777', '8778', '8785', '8551', '8555', '8552', '8553', '8743', '8786', '3819', '8486', '8838', '8781', '8782', '8498', '8829']
+RETURN source, r, destination
+
+half an hour around minions:
+MATCH (source)-[r]->(destination)
+WHERE (source.value = "minions") 
+  AND (r.ts >= 1523554920000000000 AND r.ts <= 1523558520000000000) 
+OPTIONAL MATCH (source)-[r1]-(neighbor1)
+  WHERE r1 IS NOT NULL AND r1.ts >= 1523554920000000000 AND r1.ts <= 1523558520000000000
+OPTIONAL MATCH (destination)-[r2]-(neighbor2)
+  WHERE r2 IS NOT NULL AND r2.ts >= 1523554920000000000 AND r2.ts <= 1523558520000000000
+RETURN source, r, destination, r1, neighbor1, r2, neighbor2
+
+
+half an hour around login:
+MATCH (source)-[r]->(destination)
+WHERE (source.value = "login") 
+  AND (r.ts >= 1523626080000000000 AND r.ts <= 1523629680000000000) 
+OPTIONAL MATCH (source)-[r1]-(neighbor1)
+  WHERE r1 IS NOT NULL AND r1.ts >= 1523626080000000000 AND r1.ts <= 1523629680000000000
+OPTIONAL MATCH (destination)-[r2]-(neighbor2)
+  WHERE r2 IS NOT NULL AND r2.ts >= 1523626080000000000 AND r2.ts <= 1523629680000000000
+RETURN source, r, destination, r1, neighbor1, r2, neighbor2
+
+
+hour forward from login, with 3 hop neighborhood 
+MATCH (source)-[r]->(destination)
+WHERE (source.value = "login") 
+  AND (r.ts >= 1523627880000000000 AND r.ts <= 1523631480000000000) 
+OPTIONAL MATCH (source)-[r1]-(neighbor1)
+  WHERE r1.ts >= 1523627880000000000 AND r1.ts <= 1523631480000000000
+OPTIONAL MATCH (destination)-[r2]-(neighbor2)
+  WHERE r2.ts >= 1523627880000000000 AND r2.ts <= 1523631480000000000
+OPTIONAL MATCH (neighbor1)-[r3]-(neighbor3)
+  WHERE r3.ts >= 1523627880000000000 AND r3.ts <= 1523631480000000000
+OPTIONAL MATCH (neighbor2)-[r4]-(neighbor4)
+  WHERE r4.ts >= 1523627880000000000 AND r4.ts <= 1523631480000000000
+RETURN source, r, destination, r1, neighbor1, r2, neighbor2, r3, neighbor3, r4, neighbor4
+
+Time filter on top 50 
+MATCH (source)-[r]->(destination)
+WHERE  (r.indexid IN ['8823', '8427', '8431', '8787', '8429', '8503', '8779', '8830', '8749', '5886', '7059', '8425', '8780', '8834', '8432', '8543', '8544', '8745', '8821', '3820', '8511', '4430', '4431', '4432', '8537', '8538', '8825', '8784', '8832', '8716', '8746', '4471', '4472', '8554', '8777', '8778', '8785', '8551', '8555', '8552', '8553', '8743', '8786', '3819', '8486', '8838', '8781', '8782', '8498', '8829'])
+  AND (r.ts >= 1523627880000000000 AND r.ts <= 1523631480000000000) 
+RETURN source, r, destination
+
+
+
+MATCH (source)-[r]->(destination)
+WHERE (source.value = "vUgefal") or (source.value = "pEja72mA") 
+OPTIONAL MATCH (source)-[r1]-(neighbor1)
+  WHERE r1 IS NOT NULL 
+OPTIONAL MATCH (destination)-[r2]-(neighbor2)
+  WHERE r2 IS NOT NULL 
+RETURN source, r, destination, r1, neighbor1, r2, neighbor2
+
+
+
+MATCH (source)-[r]->(destination)
+WHERE (destination.value = " null 128.55.12.10") 
+  AND (r.ts >= 1523552580000000000 AND r.ts <= 1523554380000000000) 
+OPTIONAL MATCH (source)-[r1]-(neighbor1)
+  WHERE r1 IS NOT NULL AND r1.ts >= 1523552580000000000 AND r1.ts <= 1523554380000000000
+OPTIONAL MATCH (destination)-[r2]-(neighbor2)
+  WHERE r2 IS NOT NULL AND r2.ts >= 1523552580000000000 AND r2.ts <= 1523554380000000000
+OPTIONAL MATCH (neighbor1)-[r3]-(neighbor3)
+  WHERE r3.ts >= 1523552580000000000 AND r3.ts <= 1523554380000000000
+OPTIONAL MATCH (neighbor2)-[r4]-(neighbor4)
+  WHERE r4.ts >= 1523552580000000000 AND r4.ts <= 1523554380000000000
+RETURN source, r, destination, r1, neighbor1, r2, neighbor2, r3, neighbor3, r4, neighbor4

@@ -1,0 +1,129 @@
+// A palette of colors used to color distinct node labels
+Define(COLOR_PALETTE, AsArray(
+  #DD2222, #FB6E00, #FFC500, #720096,
+  #5E4FA2, #3288BD, #66C2A5, #ABDDA4,
+  #E6F598, #FEE08B, #D53E4F, #9E0142
+))
+Define(COLOR_PALETTE_ITER, AsIterator(COLOR_PALETTE))
+
+// If there are no palette colors to use, use random colors instead
+Define(RandomColor, Function(RGB(RandomInt(255), RandomInt(255), RandomInt(255))))
+Define(GetNextColor, Function(
+  Coalesce(Next(COLOR_PALETTE_ITER), RandomColor())
+))
+
+// Cache map to keep a selected color for each node label
+Define(ColorByLabel, AsMap())
+Define(GetColorByLabel, Function(labels, Coalesce(
+  Get(ColorByLabel, labels),
+  Set(ColorByLabel, labels, GetNextColor())
+)))
+Define(JoinLabels, Function(labels, Join(Sort(labels), ":")))
+
+// Baseline node style that will be applied to every single node
+@NodeStyle {
+  Define(COLOR, GetColorByLabel(JoinLabels(Labels(node))))
+
+  size: 6
+  color: COLOR
+  color-hover: Lighter(COLOR)
+  color-selected: Darker(COLOR)
+  border-width: 0.6
+  border-color: #1D1D1D
+  font-size: 3
+}
+
+// Overwrite node text with the node label if defined
+//@NodeStyle Greater(Size(Labels(node)), 0) {
+//  label: Format(":{}", Join(Labels(node), " :"))
+//}
+
+// Overwrite node text with the property "name" if defined
+//@NodeStyle HasProperty(node, "name") {
+//  label: AsText(Property(node, "name"))
+//}
+
+// Feel free to uncomment the lines below to set up a custom style for the specific node label
+// @NodeStyle HasLabel(node, "type") {
+//  Define(STATUS_COLOR, Case(
+//    Equals(Property(node, "type"), "SUBJECT_PROCESS"), "#33FF57",
+//    Equals(Property(node, "type"), "FILE_OBJECT_FILE"), "#FF3333",
+//    "#999999"  // default color
+//  ))
+//}
+
+
+@NodeStyle Equals(Property(node, "type"), "SUBJECT_PROCESS") {
+   color: #082BF0 // blue
+}
+
+@NodeStyle Equals(Property(node, "type"), "FILE_OBJECT_FILE") {
+   color: #F0B108 //orange
+}
+
+@NodeStyle Equals(Property(node, "type"), "netflowobject") {
+   color: #E208F0 //magenta
+}
+
+@NodeStyle Equals(Property(node, "type"), "FILE_OBJECT_UNIX_SOCKET") {
+   color: #F0E908 //yellow
+}
+
+@NodeStyle Equals(Property(node, "type"), "unnamedpipeobject") {
+   color: #C5AED1 //light magenta
+}
+
+
+
+// Feel free to uncomment the lines below to set up a custom style for the specific node property
+// @NodeStyle HasProperty(node, "my_property_name") {
+//   color: black
+//   label: AsText(Property(node, "my_property_name"))
+// }
+
+Define(LATITUDE_FIELD, "lat")
+Define(LONGITUDE_FIELD, "lng")
+
+// In the case of numeric latitude and longitude properties, set them up for a switch to a map view
+@NodeStyle And(IsNumber(Property(node, LATITUDE_FIELD)), IsNumber(Property(node, LONGITUDE_FIELD))) {
+  latitude: Property(node, LATITUDE_FIELD)
+  longitude: Property(node, LONGITUDE_FIELD)
+}
+@NodeStyle {
+  label: Property(node, "value")
+}
+
+// Baseline edge style that will be applied to every single edge
+@EdgeStyle {
+  color: #999999
+  color-hover: #1D1D1D
+  color-selected: #1D1D1D
+  width: 0.3
+  width-hover: 0.9
+  width-selected: 0.9
+  font-size: 3
+}
+
+// Show edge text only if there is a small number of edges in the view
+  //label: Type(edge)
+@EdgeStyle Less(EdgeCount(graph), 30) {
+  label: Property(edge, "type")
+}
+
+// In case of a map view, set the default tile layer
+@ViewStyle.Map {
+  tile-layer: "light"
+}
+
+
+@EdgeStyle Equals(Property(edge, "label"), "0") {
+  color: #FF3333 //red
+  width: 0.9
+}
+
+//    Equals(Property(node, "type"), "SUBJECT_PROCESS"), "#33FF57",
+//    Equals(Property(node, "type"), "FILE_OBJECT_FILE"), "#FF3333",
+// Canvas background color
+@ViewStyle {
+  background-color: #FFFFFF00
+}
