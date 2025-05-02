@@ -51,7 +51,7 @@ python train_darpa_cadets.py
 python result_analysis_cadets.py
 ```
 ---
-###🧪 Memgraph Hunting \& Visualization
+### 🧪 Memgraph Hunting \& Visualization
 ```bash
 cd memgraph-platform
 docker-compose up -d
